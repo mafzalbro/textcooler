@@ -16,13 +16,10 @@ function TextArea(props) {
         setText(text.split(/ [ ] + /).join(" "));
     }
 
-    // const clickToDown = () =>{
-    //     setText(text.toLowerCase());
-    // }
     const clickToCopy = () =>{
         const text = document.querySelector("#mytext");
         let btn = document.querySelector(".btn.copy");
-
+        
         text.select()
         navigator.clipboard.writeText(text.value)
         
@@ -35,6 +32,15 @@ function TextArea(props) {
     const onChangeFunc = (event) =>{
         setText(event.target.value)
     }
+    const clickToDown = () =>{
+        setText(text);
+        const file = new File([text],'text.txt',{type: 'text/plain'});
+        const url = URL.createObjectURL(file)
+        const a = document.createElement('a');
+        a.href = url
+        a.download = 'text.txt'
+        a.click()
+    }
 
     return (
     <>
@@ -46,7 +52,7 @@ function TextArea(props) {
   <button className="btn btn-success m-1" onClick={clickToUp} disabled={text.length === 0}>Uppercase</button>
   <button className="btn btn-success m-1" onClick={clickToLow} disabled={text.length === 0}>Lowercase</button>
   <button className="btn btn-success m-1" onClick={clickToRemoveSpace} disabled={text.length === 0}>Remove Extra Space</button>
-  {/*<button className="btn btn-success m-1" onClick={clickToDown} disabled={text.length === 0}>Download</button>  */}
+  <button className="btn btn-success m-1 download" onClick={clickToDown} disabled={text.length === 0}>Download</button> 
   <button className="btn btn-success m-1 copy" onClick={clickToCopy} disabled={text.length === 0}>Copy</button>
   <button className="btn btn-success m-1" onClick={clickToClr} disabled={text.length === 0}>Clear</button>
     </div>
